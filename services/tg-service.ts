@@ -5,8 +5,8 @@ import TelegramBot, { Message } from "node-telegram-bot-api";
 import * as interfaces from "../interfaces";
 import { clients, handleMessages } from "../hooks/handle-message-hook";
 import { HttpService } from "./http-service";
-// import fs from "fs";
-// import path from "path";
+import fs from "fs";
+import path from "path";
 
 export class TelegramBotService {
 
@@ -51,13 +51,13 @@ export class TelegramBotService {
                                 sortedResult.forEach((post: interfaces.IResultPost) => {
                                     let content: string = "";
                                                  
-                                    // const cockFilePath: string = path.join(__dirname, "../", "cock.txt");
-                                    // const cock: string = fs.readFileSync(cockFilePath, { encoding: "utf-8" });
+                                    const cockFilePath: string = path.join(__dirname, "../../", "cock.txt");
+                                    const cock: string = fs.readFileSync(cockFilePath, { encoding: "utf-8" });
 
                                     const priceLeft = post.price.slice(0, post.price.length-2);
                                     const priceRight = post.price.slice(post.price.length-2, post.price.length-1);
 
-                                    // content += `${cock}\n\n`;
+                                    content += `${cock}\n\n`;
                                     content += `${post.title}\n`;
                                     content += `${priceLeft}.${priceRight} руб\n`;
                                     content += `${post.link}`;
