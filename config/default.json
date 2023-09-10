@@ -1,0 +1,4 @@
+{
+    "PORT": 3000,
+    "KUFAR_API_URL": "https://api.kufar.by/search-api/v1/search/rendered-paginated?lang=ru"
+}
