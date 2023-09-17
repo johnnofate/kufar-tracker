@@ -19,8 +19,13 @@ export class TelegramBotService {
 
     public subscribeToMessages(): void {
         this.bot.onText(/()/, (message: Message) => {
+            console.log(message.from);
             handleMessages(this.bot, message);
         });
+    }
+
+    public sendMessageAppStarted() {
+        // this.bot.sendMessage(1312312, "Бот был перезапущен, подпишитесь снова, если вы были подписаны");
     }
 
     public render() {
