@@ -41,7 +41,7 @@ export class Server {
                         return;
                     }
 
-                    console.error("unexpected error: ", error);
+                    console.error("unexpected error: ", err);
                     return;
                 });
         } catch (error: unknown) {
