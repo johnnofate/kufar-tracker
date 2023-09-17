@@ -11,6 +11,7 @@ export class Server {
     private PORT: string;
     private readonly app: Application = express();
     private readonly refreshDelayInMilliseconds = 60000;
+    private refreshCounter: number = 0;
 
     constructor(port: string) {
         this.PORT = port;
@@ -18,11 +19,17 @@ export class Server {
 
     public listenPort(): void {
         this.app.get("/refresh", (req: Request, res: Response) => {
+            if (this.refreshCounter === 0 || this.refreshCounter % 100 === 0) {
+                console.log("refresh start");
+            }
+
             const url: string = req.protocol + "://" + req.get("host") + req.originalUrl;
 
             setTimeout(() => {
                 this.refresh(url);
             }, this.refreshDelayInMilliseconds);
+
+            this.refreshCounter++;
 
             return res.status(200).end();
         });
