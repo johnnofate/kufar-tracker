@@ -12,7 +12,7 @@ export class Server {
     private readonly app: Application = express();
     private readonly refreshDelayInMilliseconds = 60000;
 
-    constructor (port: string) {
+    constructor(port: string) {
         this.PORT = port;
     }
 
@@ -35,16 +35,23 @@ export class Server {
     private refresh(url: string): void {
         try {
             axios.get(url)
-                .then((res: AxiosResponse) => console.log(res.status))
-                .catch((err: unknown) => console.error(err));
+                .catch((err: unknown) => {
+                    if (axios.isAxiosError(err)) {
+                        console.error("error message: ", err.message);
+                        return;
+                    }
+
+                    console.error("unexpected error: ", error);
+                    return;
+                });
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 console.error("error message: ", error.message);
                 return;
             }
+
             console.error("unexpected error: ", error);
             return;
-
         }
     }
 
@@ -52,6 +59,7 @@ export class Server {
         const kufarTracker: KufarTracker = new KufarTracker();
         kufarTracker.start();
     }
+
 }
 
 const PORT: string = process.env.PORT ?? config.get("PORT");
