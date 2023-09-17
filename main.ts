@@ -4,7 +4,7 @@ dotenv.config();
 import config from "config";
 import express, { Application, Request, Response } from "express";
 import { KufarTracker } from "./app";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 export class Server {
 

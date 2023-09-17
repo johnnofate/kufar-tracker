@@ -1,6 +1,11 @@
 import TelegramBot, { Message } from "node-telegram-bot-api";
 
-export async function send(bot: TelegramBot, message: Message, text: string, options: TelegramBot.SendMessageOptions = {}): Promise<TelegramBot.Message> {
+export async function send(
+    bot: TelegramBot,
+    message: Message,
+    text: string,
+    options: TelegramBot.SendMessageOptions = {}
+): Promise<TelegramBot.Message> {
     if (text.length) {
         try {
             const newMessage = await bot.sendMessage(message.chat.id, text, options);
@@ -11,7 +16,7 @@ export async function send(bot: TelegramBot, message: Message, text: string, opt
         }
 
     }
-    
+
     console.error("Message is EMPTY");
     return message;
 }

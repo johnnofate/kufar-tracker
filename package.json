@@ -10,7 +10,7 @@
     "start": "node ./dist/main.js",
     "dev": "tsc && nodemon ./dist/main.js",
     "build": "tsc",
-    "lint:fix": "npx eslint --fix ."
+    "lint": "npx eslint --fix ."
   },
   "keywords": [
     "kufar",

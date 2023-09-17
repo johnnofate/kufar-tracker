@@ -7,10 +7,22 @@ export function dataHandler(data: interfaces.IKufarData, searchParams: interface
         const post_date: number = new Date(post["list_time"]).getTime();
         const has_photo: boolean = post["images"].length > 0;
 
+        const account_parameters: interfaces.IKufarAccountParam[] = post["account_parameters"];
+        const isCompony: boolean = !!account_parameters.filter((accountParam: interfaces.IKufarAccountParam) => {
+            if (["shop_address", "company_address", "company_number"].includes(accountParam["p"]) && accountParam["v"].length) return true;
+            return false;  
+        }).length;
+
         const ad_parameters: interfaces.IKufarPostParam[] = post["ad_parameters"];
         const getParam = (filterParam: string): interfaces.IKufarPostParam[] => ad_parameters.filter((postParam: interfaces.IKufarPostParam) => postParam["p"] === filterParam);
 
         for (const key in searchParams) {
+            if ((key === interfaces.searchParamsKeysEnum.current_date) && !!searchParams[interfaces.searchParamsKeysEnum.current_date]) {
+                if (!post_date) return posts;
+
+                if (post_date < searchParams[interfaces.searchParamsKeysEnum.current_date]) return posts;
+            }
+            if (isCompony) return posts;
             if (key === interfaces.searchParamsKeysEnum.title && searchParams[interfaces.searchParamsKeysEnum.title]) {
                 if (!title.length) return posts;
                 if (!title.toUpperCase().includes(searchParams[interfaces.searchParamsKeysEnum.title].toUpperCase())) return posts;
@@ -74,16 +86,12 @@ export function dataHandler(data: interfaces.IKufarData, searchParams: interface
                 if (!area) return posts;
                 if (!area.toUpperCase().includes(searchParams[interfaces.searchParamsKeysEnum.area].toUpperCase())) return posts;
             }
-            if ((key === interfaces.searchParamsKeysEnum.current_date) && !!searchParams[interfaces.searchParamsKeysEnum.current_date]) {
-                if (!post_date) return posts;
-
-                if (post_date < searchParams[interfaces.searchParamsKeysEnum.current_date]) return posts;
-            }
         }
 
         return [...posts, {
             title,
             price: price.toString(),
+            imageLink: post["images"].length ? post["images"][0]["path"] : "",
             link: post["ad_link"]
         }];
     }, []);

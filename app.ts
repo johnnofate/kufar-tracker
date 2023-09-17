@@ -6,6 +6,7 @@ export class KufarTracker {
 
     public start(): void {
         this.botService.sendMessageAppStarted();
+        
         const renderInterval: NodeJS.Timeout = setInterval(async () => {
             this.botService.render();
         }, 5000);

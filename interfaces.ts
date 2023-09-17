@@ -34,6 +34,7 @@ export interface ISearchParams {
 export interface IResultPost {
     title: string,
     price: string,
+    imageLink: string,
     link: string
 }
 
@@ -51,11 +52,21 @@ export interface IKufarPostParam {
     vl: string,
 }
 
+export interface IKufarPostImage {
+    path: string,
+}
+
+export interface IKufarAccountParam {
+    p: string,
+    v: string
+}
+
 export interface IKufarPost {
     subject: string,
     price_byn: string,
     list_time: string,
-    images: unknown[],
+    images: IKufarPostImage[],
+    account_parameters: IKufarAccountParam[]
     ad_parameters: IKufarPostParam[],
     ad_link: string
 }

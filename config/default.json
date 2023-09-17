@@ -1,4 +1,5 @@
 {
     "PORT": 3000,
-    "KUFAR_API_URL": "https://api.kufar.by/search-api/v1/search/rendered-paginated?lang=ru"
+    "KUFAR_API_URL": "https://api.kufar.by/search-api/v1/search/rendered-paginated?lang=ru",
+    "KUFAR_PHOTO_API_URL": "https://rms7.kufar.by/v1/list_thumbs_2x/"
 }
