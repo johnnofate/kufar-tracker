@@ -94,7 +94,7 @@ export const responseSuccessMessage = {
     postPriceMax: "Какая будет максимальная цена?",
     postHasPhoto: "Будет ли фото у объявления? (да, нет)",
     postStorage: "Сколько памяти? (Можно несколько, указываете память через запятую с одним пробелом)",
-    postCurrentData: "",
+    alreadySubscribed: "Вы уже подписаны.",
 };
 
 export const responseErrorMessage = {

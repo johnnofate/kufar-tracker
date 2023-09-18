@@ -67,6 +67,11 @@ export async function handleMessages(bot: TelegramBot, message: Message): Promis
         send(bot, message, interfaces.responseSuccessMessage.start(message));
         break;
     case interfaces.commandsEnum.subscribe: {
+        if (clients[message.chat.id]) {
+            send(bot, message, interfaces.responseSuccessMessage.alreadySubscribed);
+            break;
+        }
+
         send(bot, message, interfaces.responseSuccessMessage.subscribeInfo);
 
         isReply = true;
