@@ -84,7 +84,7 @@ main.startApp();
 район=
 модель=iphone 12, iphone 12 mini, iphone xs, iphone xs max, iphone 11, iphone 11 pro, iphone 11 pro max
 производитель=apple
-память=128, 256
+память=128, 256, 512
 с_фото(да,нет)=да
 минимальная_цена=
 максимальная_цена=1600
