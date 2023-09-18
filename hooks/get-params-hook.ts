@@ -4,10 +4,8 @@ import { send } from "./send-hook";
 
 export function getSearchParams(bot: TelegramBot, message: Message): Promise<interfaces.ISearchParams> {
     const searchParams: interfaces.ISearchParams = {
-        [interfaces.searchParamsKeysEnum.title]: "",
         [interfaces.searchParamsKeysEnum.category]: "",
         [interfaces.searchParamsKeysEnum.region]: "",
-        [interfaces.searchParamsKeysEnum.area]: "",
         [interfaces.searchParamsKeysEnum.model]: [],
         [interfaces.searchParamsKeysEnum.producer]: "",
         [interfaces.searchParamsKeysEnum.price_min]: -1,
@@ -90,17 +88,6 @@ export function getSearchParams(bot: TelegramBot, message: Message): Promise<int
             bot.onReplyToMessage(message.chat.id, messageProducer.message_id, messageProducerHandler);
         };
 
-        const messageAreaHandler = async (messageAnswer: Message) => {
-            const val: string = messageAnswer.text?.toLocaleLowerCase() ?? "пусто";
-
-            if (messageAnswer.text?.toLocaleLowerCase() !== "пусто") {
-                searchParams[interfaces.searchParamsKeysEnum.area] = val;
-            }
-
-            const messageModel = await send(bot, messageAnswer, interfaces.responseSuccessMessage.postModel, messageOptions);
-            bot.onReplyToMessage(message.chat.id, messageModel.message_id, messageModelHandler);
-        };
-
         const messageRegionHandler = async (messageAnswer: Message) => {
             const val: string = messageAnswer.text?.toLocaleLowerCase() ?? "пусто";
 
@@ -108,8 +95,8 @@ export function getSearchParams(bot: TelegramBot, message: Message): Promise<int
                 searchParams[interfaces.searchParamsKeysEnum.region] = val;
             }
 
-            const messageArea = await send(bot, messageAnswer, interfaces.responseSuccessMessage.postArea, messageOptions);
-            bot.onReplyToMessage(message.chat.id, messageArea.message_id, messageAreaHandler);
+            const messageModel = await send(bot, messageAnswer, interfaces.responseSuccessMessage.postModel, messageOptions);
+            bot.onReplyToMessage(message.chat.id, messageModel.message_id, messageModelHandler);
         };
 
         const messageCategoryHandler = async (messageAnswer: Message) => {
@@ -123,21 +110,9 @@ export function getSearchParams(bot: TelegramBot, message: Message): Promise<int
             bot.onReplyToMessage(message.chat.id, messageRegion.message_id, messageRegionHandler);
         };
 
-        const messageTitleHandler = async (messageAnswer: Message): Promise<void> => {
-            const val: string = messageAnswer.text?.toLocaleLowerCase() ?? "пусто";
-
-            if (messageAnswer.text?.toLocaleLowerCase() !== "пусто") {
-                searchParams[interfaces.searchParamsKeysEnum.title] = val;
-            }
-
-
-            const messageCategory = await send(bot, messageAnswer, interfaces.responseSuccessMessage.postCategory, messageOptions);
-            bot.onReplyToMessage(message.chat.id, messageCategory.message_id, messageCategoryHandler);
-        };
-
-        send(bot, message, interfaces.responseSuccessMessage.postTitle, messageOptions)
-            .then((messageTitle) => {
-                bot.onReplyToMessage(message.chat.id, messageTitle.message_id, messageTitleHandler);
+        send(bot, message, interfaces.responseSuccessMessage.postCategory, messageOptions)
+            .then((messageCategory) => {
+                bot.onReplyToMessage(message.chat.id, messageCategory.message_id, messageCategoryHandler);
             });
     });
 }

@@ -23,10 +23,6 @@ export function dataHandler(data: interfaces.IKufarData, searchParams: interface
                 if (post_date < searchParams[interfaces.searchParamsKeysEnum.current_date]) return posts;
             }
             if (isCompony) return posts;
-            if (key === interfaces.searchParamsKeysEnum.title && searchParams[interfaces.searchParamsKeysEnum.title]) {
-                if (!title.length) return posts;
-                if (!title.toUpperCase().includes(searchParams[interfaces.searchParamsKeysEnum.title].toUpperCase())) return posts;
-            }
             if (key === interfaces.searchParamsKeysEnum.category && searchParams[interfaces.searchParamsKeysEnum.category]) {
                 const category: string | null = (getParam("category") && getParam("category")[0]) ? getParam("category")[0]["vl"] : null;
 
@@ -79,12 +75,6 @@ export function dataHandler(data: interfaces.IKufarData, searchParams: interface
                 });
 
                 if (!candidate.length) return posts;
-            }
-            if (key === interfaces.searchParamsKeysEnum.area && searchParams[interfaces.searchParamsKeysEnum.area]) {
-                const area: string | null = (getParam("area") && getParam("area")[0]) ? getParam("area")[0]["vl"] : null;
-
-                if (!area) return posts;
-                if (!area.toUpperCase().includes(searchParams[interfaces.searchParamsKeysEnum.area].toUpperCase())) return posts;
             }
         }
 

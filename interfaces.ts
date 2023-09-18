@@ -1,9 +1,7 @@
 import { Message } from "node-telegram-bot-api";
 
 export enum searchParamsKeysEnum {
-    title = "title",
     category = "category",
-    area = "area",
     region = "region",
     model = "model",
     producer = "producer",
@@ -16,9 +14,7 @@ export enum searchParamsKeysEnum {
 }
 
 export interface ISearchParams {
-    [searchParamsKeysEnum.title]: string,
     [searchParamsKeysEnum.category]: string,
-    [searchParamsKeysEnum.area]: string,
     [searchParamsKeysEnum.region]: string,
     [searchParamsKeysEnum.model]: string[],
     [searchParamsKeysEnum.producer]: string,
@@ -90,10 +86,8 @@ export const responseSuccessMessage = {
     subscribeInfo: "Чтобы подписаться на объявления Куфар, вам нужно заполнить небольшую форму. Отвечайте на сообщения с помощью поля \"Ответить\". Чтобы пропустить пункт напишите \"пусто\".",
     subscribeSuccess: "Вы успешно подписаны на новые объявления по данным параметрам!",
     unsubscribeSuccess: "Вы успешно отписались!",
-    postTitle: "Какое будет название?",
     postCategory: "Какая будет категория?",
     postRegion: "Какой будет город?",
-    postArea: "Какой будет район?",
     postModel: "Какая модель? (Можно несколько, указываете модели через запятую с одним пробелом)",
     postProducer: "Какой будет производитель?",
     postPriceMin: "Какая будет минимальная цена?",
