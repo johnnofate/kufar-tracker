@@ -28,7 +28,7 @@ export class TelegramBotService {
         const usersIds: number[] = [1017548710, 1485419781, 1175319115];
 
         usersIds.forEach((userId: number) => {
-            this.bot.sendMessage(userId, "Бот был перезапущен, подпишитесь снова, если вы были подписаны");
+            this.bot.sendMessage(userId, interfaces.responseSuccessMessage.botRestart);
         });
     }
 

@@ -95,6 +95,7 @@ export const responseSuccessMessage = {
     postHasPhoto: "Будет ли фото у объявления? (да, нет)",
     postStorage: "Сколько памяти? (Можно несколько, указываете память через запятую с одним пробелом)",
     alreadySubscribed: "Вы уже подписаны.",
+    botRestart: "Бот был перезапущен, если вы не находитесь в списке премиум пользователей, то подпишитесь заново."
 };
 
 export const responseErrorMessage = {
