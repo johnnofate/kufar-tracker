@@ -19,6 +19,7 @@ export class TelegramBotService {
 
     public subscribeToMessages(): void {
         this.bot.onText(/()/, (message: Message) => {
+            console.log(message.from?.first_name, message.chat.id);
             handleMessages(this.bot, message);
         });
     }
@@ -57,9 +58,7 @@ export class TelegramBotService {
 
                             if (sortedResult.length) {
                                 sortedResult.forEach((post: interfaces.IResultPost) => {
-                                    let content: string = "";
-
-                                    
+                                    let content: string = "";                                    
 
                                     const priceLeft = post.price.slice(0, post.price.length - 2);
                                     const priceRight = post.price.slice(post.price.length - 2, post.price.length - 1);

@@ -9,14 +9,14 @@ export const clients: interfaces.IClients = {
     "1017548710": {
         searchParams: {
             category: "мобильные телефоны",
+            region: "минск",
             model: ["iphone 12", "iphone 12 mini", "iphone xs", "iphone xs max", "iphone 11", "iphone 11 pro", "iphone 11 pro max"],
             producer: "apple",
-            region: "минск",
-            has_photo: true,
             price_min: -1,
-            price_max: 1500,
+            price_max: 150000,
+            has_photo: true,
             storage: ["128", "256", "512"],
-            current_date: Date.now(),
+            current_date: 0,
             page_size: 200,
         },
         prevPosts: [],
@@ -24,14 +24,14 @@ export const clients: interfaces.IClients = {
     "1485419781": {
         searchParams: {
             category: "мобильные телефоны",
+            region: "минск",
             model: ["iphone 12", "iphone 12 mini", "iphone xs", "iphone xs max", "iphone 11", "iphone 11 pro", "iphone 11 pro max"],
             producer: "apple",
-            region: "минск",
-            has_photo: true,
             price_min: -1,
-            price_max: 1500,
+            price_max: 150000,
+            has_photo: true,
             storage: ["128", "256", "512"],
-            current_date: Date.now(),
+            current_date: 0,
             page_size: 200,
         },
         prevPosts: [],
@@ -39,14 +39,14 @@ export const clients: interfaces.IClients = {
     "1175319115": {
         searchParams: {
             category: "мобильные телефоны",
+            region: "минск",
             model: ["iphone 12", "iphone 12 mini", "iphone xs", "iphone xs max", "iphone 11", "iphone 11 pro", "iphone 11 pro max"],
             producer: "apple",
-            region: "минск",
-            has_photo: true,
             price_min: -1,
-            price_max: 1500,
+            price_max: 150000,
+            has_photo: true,
             storage: ["128", "256", "512"],
-            current_date: Date.now(),
+            current_date: 0,
             page_size: 200,
         },
         prevPosts: [],
@@ -77,7 +77,6 @@ export async function handleMessages(bot: TelegramBot, message: Message): Promis
         isReply = true;
 
         const searchParams: interfaces.ISearchParams = await getSearchParams(bot, message);
-
         isReply = false;
 
         if (message.chat && message.chat.id) {
