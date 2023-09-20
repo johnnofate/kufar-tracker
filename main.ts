@@ -65,6 +65,7 @@ export class Server {
     public startApp(): void {
         const kufarTracker: KufarTracker = new KufarTracker();
         kufarTracker.start();
+        this.refresh("https://kufar-tracker.onrender.com/refresh");
     }
 
 }
