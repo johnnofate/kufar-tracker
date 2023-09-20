@@ -19,7 +19,6 @@ export class TelegramBotService {
 
     public subscribeToMessages(): void {
         this.bot.onText(/()/, (message: Message) => {
-            console.log(message.from?.first_name, message.chat.id);
             handleMessages(this.bot, message);
         });
     }
@@ -64,12 +63,14 @@ export class TelegramBotService {
                                     const priceRight = post.price.slice(post.price.length - 2, post.price.length - 1);
 
                                     content += `${post.title}\n`;
-                                    content += `${priceLeft}.${priceRight} руб\n`;
-                                    content += `${post.link}`;
+                                    content += `${priceLeft}.${priceRight} руб`;
 
                                     if (post.imageLink) {
                                         this.bot.sendPhoto(id, this.KUFAR_PHOTO_API_URL + post.imageLink, {
-                                            caption: content
+                                            caption: content,
+                                            reply_markup: {
+                                                inline_keyboard: [ [{ text: "Подробнее", url: post.link }] ]
+                                            }
                                         });
                                     } else {
                                         this.bot.sendMessage(id, content);
