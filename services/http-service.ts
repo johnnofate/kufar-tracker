@@ -21,9 +21,9 @@ export class HttpService {
     let url: string = ''
 
     if (cat === 0) {
-      url = this.KUFAR_API_URL + `&size=${searchParams.pageSize}`
+      url = this.KUFAR_API_URL + `&size=${searchParams.page_size}`
     } else {
-      url = this.KUFAR_API_URL + `&cat=${cat}&size=${searchParams.pageSize}`
+      url = this.KUFAR_API_URL + `&cat=${cat}&size=${searchParams.page_size}`
     }
 
     try {

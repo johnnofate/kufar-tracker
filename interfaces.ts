@@ -5,12 +5,12 @@ export enum searchParamsKeysEnum {
   region = 'region',
   model = 'model',
   producer = 'producer',
-  priceMin = 'priceMin',
-  priceMax = 'priceMax',
-  hasPhoto = 'hasPhoto',
+  price_min = 'price_min',
+  price_max = 'price_max',
+  has_photo = 'has_photo',
   storage = 'storage',
-  currentDate = 'currentDate',
-  pageSize = 'pageSize'
+  current_date = 'current_date',
+  page_size = 'page_size'
 }
 
 export interface ISearchParams {
@@ -18,12 +18,12 @@ export interface ISearchParams {
   [searchParamsKeysEnum.region]?: string
   [searchParamsKeysEnum.model]?: string[]
   [searchParamsKeysEnum.producer]?: string
-  [searchParamsKeysEnum.priceMin]?: number
-  [searchParamsKeysEnum.priceMax]?: number
-  [searchParamsKeysEnum.hasPhoto]?: boolean | null
+  [searchParamsKeysEnum.price_min]?: number
+  [searchParamsKeysEnum.price_max]?: number
+  [searchParamsKeysEnum.has_photo]?: boolean | null
   [searchParamsKeysEnum.storage]?: string[]
-  [searchParamsKeysEnum.currentDate]?: number
-  [searchParamsKeysEnum.pageSize]?: number
+  [searchParamsKeysEnum.current_date]?: number
+  [searchParamsKeysEnum.page_size]?: number
 }
 
 export interface IResultPost {

@@ -13,12 +13,12 @@ export const clients: interfaces.IClients = {
       region: 'минск',
       model: ['iphone 12', 'iphone 12 mini', 'iphone xs', 'iphone xs max', 'iphone 11', 'iphone 11 pro', 'iphone 11 pro max'],
       producer: 'apple',
-      priceMin: -1,
-      priceMax: 150000,
-      hasPhoto: true,
+      price_min: -1,
+      price_max: 150000,
+      has_photo: true,
       storage: ['64', '128', '256', '512'],
-      currentDate: Date.now() - 120000,
-      pageSize: 200
+      current_date: Date.now() - 120000,
+      page_size: 200
     },
     prevPosts: []
   },
@@ -28,12 +28,12 @@ export const clients: interfaces.IClients = {
       region: 'минск',
       model: ['iphone 12', 'iphone 12 mini', 'iphone xs', 'iphone xs max', 'iphone 11', 'iphone 11 pro', 'iphone 11 pro max'],
       producer: 'apple',
-      priceMin: -1,
-      priceMax: 150000,
-      hasPhoto: true,
+      price_min: -1,
+      price_max: 150000,
+      has_photo: true,
       storage: ['64', '128', '256', '512'],
-      currentDate: Date.now() - 120000,
-      pageSize: 200
+      current_date: Date.now() - 120000,
+      page_size: 200
     },
     prevPosts: []
   },
@@ -43,12 +43,12 @@ export const clients: interfaces.IClients = {
       region: 'минск',
       model: ['iphone 12', 'iphone 12 mini', 'iphone xs', 'iphone xs max', 'iphone 11', 'iphone 11 pro', 'iphone 11 pro max'],
       producer: 'apple',
-      priceMin: -1,
-      priceMax: 150000,
-      hasPhoto: true,
+      price_min: -1,
+      price_max: 150000,
+      has_photo: true,
       storage: ['64', '128', '256', '512'],
-      currentDate: Date.now() - 120000,
-      pageSize: 200
+      current_date: Date.now() - 120000,
+      page_size: 200
     },
     prevPosts: []
   }

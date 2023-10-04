@@ -7,7 +7,7 @@ export function dataHandler (data: interfaces.IKufarData, searchParams: interfac
     const title: string = post.subject
     const price: number = Number(post.price_byn)
     const postDate: number = new Date(post.list_time).getTime() ?? 0
-    const hasPhoto: boolean = post.images.length > 0
+    const has_photo: boolean = post.images.length > 0
 
     const accountParameters: interfaces.IKufarAccountParam[] = post.account_parameters
     const isCompony: boolean = !(accountParameters.filter((accountParam: interfaces.IKufarAccountParam) => {
@@ -20,10 +20,10 @@ export function dataHandler (data: interfaces.IKufarData, searchParams: interfac
     const getParam = (filterParam: string): interfaces.IKufarPostParam[] => adParameters.filter((postParam: interfaces.IKufarPostParam) => postParam.p === filterParam)
 
     for (const key in searchParams) {
-      if ((key === interfaces.searchParamsKeysEnum.currentDate) && searchParams[interfaces.searchParamsKeysEnum.currentDate] !== undefined) {
+      if ((key === interfaces.searchParamsKeysEnum.current_date) && searchParams[interfaces.searchParamsKeysEnum.current_date] !== undefined) {
         if (postDate === 0) return posts
 
-        if (postDate < searchParams[interfaces.searchParamsKeysEnum.currentDate]) return posts
+        if (postDate < searchParams[interfaces.searchParamsKeysEnum.current_date]) return posts
       }
       if (isCompony) return posts
       if (key === interfaces.searchParamsKeysEnum.category && searchParams[interfaces.searchParamsKeysEnum.category] !== undefined) {
@@ -55,17 +55,17 @@ export function dataHandler (data: interfaces.IKufarData, searchParams: interfac
 
         if (candidate.length === 0) return posts
       }
-      if (key === interfaces.searchParamsKeysEnum.priceMin && searchParams[interfaces.searchParamsKeysEnum.priceMin] !== undefined && searchParams[interfaces.searchParamsKeysEnum.priceMin] >= 0) {
+      if (key === interfaces.searchParamsKeysEnum.price_min && searchParams[interfaces.searchParamsKeysEnum.price_min] !== undefined && searchParams[interfaces.searchParamsKeysEnum.price_min] >= 0) {
         if (price === undefined || price === null) return posts
-        if (price < searchParams[interfaces.searchParamsKeysEnum.priceMin]) return posts
+        if (price < searchParams[interfaces.searchParamsKeysEnum.price_min]) return posts
       }
-      if (key === interfaces.searchParamsKeysEnum.priceMax && searchParams[interfaces.searchParamsKeysEnum.priceMax] !== undefined && searchParams[interfaces.searchParamsKeysEnum.priceMax] < Infinity) {
+      if (key === interfaces.searchParamsKeysEnum.price_max && searchParams[interfaces.searchParamsKeysEnum.price_max] !== undefined && searchParams[interfaces.searchParamsKeysEnum.price_max] < Infinity) {
         if (price === undefined || price === null) return posts
-        if (price > searchParams[interfaces.searchParamsKeysEnum.priceMax]) return posts
+        if (price > searchParams[interfaces.searchParamsKeysEnum.price_max]) return posts
       }
-      if (key === interfaces.searchParamsKeysEnum.hasPhoto && searchParams[interfaces.searchParamsKeysEnum.hasPhoto] !== undefined) {
-        if (searchParams[interfaces.searchParamsKeysEnum.hasPhoto] !== null) {
-          if (hasPhoto !== searchParams[interfaces.searchParamsKeysEnum.hasPhoto]) return posts
+      if (key === interfaces.searchParamsKeysEnum.has_photo && searchParams[interfaces.searchParamsKeysEnum.has_photo] !== undefined) {
+        if (searchParams[interfaces.searchParamsKeysEnum.has_photo] !== null) {
+          if (has_photo !== searchParams[interfaces.searchParamsKeysEnum.has_photo]) return posts
         }
       }
       if (key === interfaces.searchParamsKeysEnum.storage && searchParams[interfaces.searchParamsKeysEnum.storage] !== undefined && (searchParams[interfaces.searchParamsKeysEnum.storage].length > 0)) {

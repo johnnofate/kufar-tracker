@@ -9,12 +9,12 @@ export async function getSearchParams (bot: TelegramBot, message: Message): Prom
     [interfaces.searchParamsKeysEnum.region]: '',
     [interfaces.searchParamsKeysEnum.model]: [],
     [interfaces.searchParamsKeysEnum.producer]: '',
-    [interfaces.searchParamsKeysEnum.priceMin]: -1,
-    [interfaces.searchParamsKeysEnum.priceMax]: Infinity,
-    [interfaces.searchParamsKeysEnum.hasPhoto]: null,
+    [interfaces.searchParamsKeysEnum.price_min]: -1,
+    [interfaces.searchParamsKeysEnum.price_max]: Infinity,
+    [interfaces.searchParamsKeysEnum.has_photo]: null,
     [interfaces.searchParamsKeysEnum.storage]: [],
-    [interfaces.searchParamsKeysEnum.currentDate]: Date.now() - 120000,
-    [interfaces.searchParamsKeysEnum.pageSize]: 200
+    [interfaces.searchParamsKeysEnum.current_date]: Date.now() - 120000,
+    [interfaces.searchParamsKeysEnum.page_size]: 200
   }
 
   const messageOptions = {
@@ -38,7 +38,7 @@ export async function getSearchParams (bot: TelegramBot, message: Message): Prom
       const val: string = messageAnswer.text?.toLocaleLowerCase() ?? 'пусто'
 
       if (messageAnswer.text?.toLocaleLowerCase() !== 'пусто') {
-        searchParams[interfaces.searchParamsKeysEnum.hasPhoto] = val.toUpperCase() === 'ДА'
+        searchParams[interfaces.searchParamsKeysEnum.has_photo] = val.toUpperCase() === 'ДА'
       }
 
       send(bot, messageAnswer, interfaces.responseSuccessMessage.postStorage, messageOptions)
@@ -61,7 +61,7 @@ export async function getSearchParams (bot: TelegramBot, message: Message): Prom
       }
 
       if (Number(val) !== undefined && Number(val) !== null) {
-        searchParams[interfaces.searchParamsKeysEnum.priceMax] = Number(val + '00')
+        searchParams[interfaces.searchParamsKeysEnum.price_max] = Number(val + '00')
       }
     }
 
@@ -77,7 +77,7 @@ export async function getSearchParams (bot: TelegramBot, message: Message): Prom
       }
 
       if (Number(val) !== undefined && Number(val) !== null) {
-        searchParams[interfaces.searchParamsKeysEnum.priceMin] = Number(val + '00')
+        searchParams[interfaces.searchParamsKeysEnum.price_min] = Number(val + '00')
       }
     }
 
