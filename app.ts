@@ -1,12 +1,11 @@
-import { TelegramBotService } from "./services/tg-service";
+import { TelegramBotService } from './services/tg-service'
 
 export class KufarTracker {
+  private readonly botService: TelegramBotService = new TelegramBotService()
 
-    private botService: TelegramBotService = new TelegramBotService();
-
-    public start(): void {
-        this.botService.sendMessageAppStarted();
-        this.botService.subscribeToMessages();
-        this.botService.render();
-    }
+  public start (): void {
+    this.botService.sendMessageAppStarted()
+    this.botService.subscribeToMessages()
+    this.botService.render()
+  }
 }

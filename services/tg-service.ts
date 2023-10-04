@@ -1,86 +1,94 @@
-import dotenv from "dotenv";
-dotenv.config();
+import dotenv from 'dotenv'
 
-import TelegramBot, { Message } from "node-telegram-bot-api";
-import * as interfaces from "../interfaces";
-import { clients, handleMessages } from "../hooks/handle-message-hook";
-import { HttpService } from "./http-service";
-import config from "config";
+import TelegramBot, { type Message } from 'node-telegram-bot-api'
+import * as interfaces from '../interfaces'
+import { clients, handleMessages } from '../hooks/handle-message-hook'
+import { HttpService } from './http-service'
+import config from 'config'
+dotenv.config()
 
 export class TelegramBotService {
+  private readonly TOKEN: string = process.env.TOKEN ?? ''
+  private readonly KUFAR_PHOTO_API_URL: string = config.get('KUFAR_PHOTO_API_URL')
+  private readonly renderDelayInMilliseconds: number = 10000
+  private readonly httpService = new HttpService()
 
-    private readonly TOKEN: string = process.env.TOKEN ?? "";
-    private readonly KUFAR_PHOTO_API_URL: string = config.get("KUFAR_PHOTO_API_URL");
-    private readonly renderDelayInMilliseconds: number = 10000;
-    private readonly httpService = new HttpService();
+  private readonly bot: TelegramBot = new TelegramBot(this.TOKEN, { polling: true })
 
+  public subscribeToMessages (): void {
+    this.bot.onText(/()/, (message: Message): void => {
+      handleMessages(this.bot, message)
+        .then(() => { })
+        .catch(() => { })
+    })
+  }
 
-    private bot: TelegramBot = new TelegramBot(this.TOKEN, { polling: true });
+  public sendMessageAppStarted (): void {
+    const usersIds: number[] = [1017548710, 1485419781, 1175319115]
 
-    public subscribeToMessages(): void {
-        this.bot.onText(/()/, (message: Message) => {
-            handleMessages(this.bot, message);
-        });
-    }
+    usersIds.forEach((userId: number): void => {
+      this.bot.sendMessage(userId, interfaces.responseSuccessMessage.botRestart)
+        .then(() => { })
+        .catch(() => { })
+    })
+  }
 
-    public sendMessageAppStarted() {
-        const usersIds: number[] = [1017548710, 1485419781, 1175319115];
+  public render (): void {
+    setInterval(() => {
+      const clientsIds: string[] = Object.keys(clients)
 
-        usersIds.forEach((userId: number) => {
-            this.bot.sendMessage(userId, interfaces.responseSuccessMessage.botRestart);
-        });
-    }
+      if (clientsIds.length > 0) {
+        clientsIds.forEach((id: string): void => {
+          const client = clients[id]
 
-    public render() {
-        setInterval(() => {
-            const clientsIds: string[] = Object.keys(clients);
+          if (client === undefined) return
 
-            if (clientsIds.length) {
-                clientsIds.forEach(async (id: string) => {
-                    const client = clients[id];
+          this.httpService.getKufarPosts(client.searchParams)
+            .then((result: interfaces.IResult | undefined) => {
+              if (result === undefined || result === null) return
 
-                    if (!client) return;
+              if ((result.error !== undefined && result.error !== null) && result.error.length > 0) {
+                console.error(result.error)
+                return
+              }
 
-                    const result: interfaces.IResult | undefined = await this.httpService.getKufarPosts(client.searchParams);
+              if (result.posts === undefined || result.posts === null) return
+              if (result.posts.length <= 0) return
 
-                    if (result) {
-                        if (result.error) {
-                            console.error(result.error);
-                        }
+              const sortedResult: interfaces.IResultPost[] = result.posts.filter((post: interfaces.IResultPost) => {
+                const prevPostsCandidate = client.prevPosts.filter((prevPost: interfaces.IResultPost) => prevPost.link.trim() === post.link.trim())
+                return prevPostsCandidate.length <= 0
+              })
+              client.prevPosts.unshift(...sortedResult)
 
-                        if (result.posts && result.posts.length) {
-                            const sortedResult: interfaces.IResultPost[] = result.posts.filter((post: interfaces.IResultPost) => {
-                                const prevPostsCandidate = client.prevPosts.filter((prevPost: interfaces.IResultPost) => prevPost.link.trim() === post.link.trim());
-                                return prevPostsCandidate.length <= 0;
-                            });
-                            client.prevPosts.push(...sortedResult);
+              if (client.prevPosts.length > 200) {
+                client.prevPosts = client.prevPosts.filter((_post, index) => index <= 200)
+              }
 
-                            if (sortedResult.length) {
-                                sortedResult.forEach((post: interfaces.IResultPost) => {
-                                    let content: string = "";                                    
+              if (sortedResult.length > 0) {
+                sortedResult.forEach((post: interfaces.IResultPost): void => {
+                  let content: string = ''
 
-                                    const priceLeft = post.price.slice(0, post.price.length - 2);
-                                    const priceRight = post.price.slice(post.price.length - 2, post.price.length - 1);
+                  const priceLeft = post.price.slice(0, post.price.length - 2)
+                  const priceRight = post.price.slice(post.price.length - 2, post.price.length - 1)
 
-                                    content += `${post.title}\n`;
-                                    content += `${priceLeft}.${priceRight} руб`;
+                  content += `${post.title}\n`
+                  content += `${priceLeft}.${priceRight} руб`
 
-                                    if (post.imageLink) {
-                                        this.bot.sendPhoto(id, this.KUFAR_PHOTO_API_URL + post.imageLink, {
-                                            caption: content,
-                                            reply_markup: {
-                                                inline_keyboard: [ [{ text: "Подробнее", url: post.link }] ]
-                                            }
-                                        });
-                                    } else {
-                                        this.bot.sendMessage(id, content);
-                                    }
-                                });
-                            }
-                        }
+                  this.bot.sendPhoto(id, this.KUFAR_PHOTO_API_URL + post.imageLink, {
+                    caption: content,
+                    reply_markup: {
+                      inline_keyboard: [[{ text: 'Подробнее', url: post.link }]]
                     }
-                });
-            }
-        }, this.renderDelayInMilliseconds);
-    }
+                  })
+                    .then(() => { })
+                    .catch(() => { })
+                })
+              }
+            })
+            .catch(() => { })
+        })
+      }
+    }, this.renderDelayInMilliseconds)
+  }
 }
