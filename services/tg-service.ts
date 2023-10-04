@@ -24,13 +24,13 @@ export class TelegramBotService {
   }
 
   public sendMessageAppStarted (): void {
-    // const usersIds: number[] = [1017548710, 1485419781, 1175319115]
+    const usersIds: number[] = [1017548710, 1485419781, 1175319115]
 
-    // usersIds.forEach((userId: number): void => {
-    //   this.bot.sendMessage(userId, interfaces.responseSuccessMessage.botRestart)
-    //     .then(() => { })
-    //     .catch(() => { })
-    // })
+    usersIds.forEach((userId: number): void => {
+      this.bot.sendMessage(userId, interfaces.responseSuccessMessage.botRestart)
+        .then(() => { })
+        .catch(() => { })
+    })
   }
 
   public render (): void {

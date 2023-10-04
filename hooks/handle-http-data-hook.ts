@@ -7,7 +7,7 @@ export function dataHandler (data: interfaces.IKufarData, searchParams: interfac
     const title: string = post.subject
     const price: number = Number(post.price_byn)
     const postDate: number = new Date(post.list_time).getTime() ?? 0
-    const has_photo: boolean = post.images.length > 0
+    const hasPhoto: boolean = post.images.length > 0
 
     const accountParameters: interfaces.IKufarAccountParam[] = post.account_parameters
     const isCompony: boolean = !(accountParameters.filter((accountParam: interfaces.IKufarAccountParam) => {
@@ -65,7 +65,7 @@ export function dataHandler (data: interfaces.IKufarData, searchParams: interfac
       }
       if (key === interfaces.searchParamsKeysEnum.has_photo && searchParams[interfaces.searchParamsKeysEnum.has_photo] !== undefined) {
         if (searchParams[interfaces.searchParamsKeysEnum.has_photo] !== null) {
-          if (has_photo !== searchParams[interfaces.searchParamsKeysEnum.has_photo]) return posts
+          if (hasPhoto !== searchParams[interfaces.searchParamsKeysEnum.has_photo]) return posts
         }
       }
       if (key === interfaces.searchParamsKeysEnum.storage && searchParams[interfaces.searchParamsKeysEnum.storage] !== undefined && (searchParams[interfaces.searchParamsKeysEnum.storage].length > 0)) {
