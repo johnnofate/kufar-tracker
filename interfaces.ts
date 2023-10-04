@@ -58,12 +58,12 @@ export interface IKufarAccountParam {
 
 export interface IKufarPost {
   subject: string
-  priceByn: string
-  listTime: string
+  price_byn: string
+  list_time: string
   images: IKufarPostImage[]
-  accountParameters: IKufarAccountParam[]
-  adParameters: IKufarPostParam[]
-  adLink: string
+  account_parameters: IKufarAccountParam[]
+  ad_parameters: IKufarPostParam[]
+  ad_link: string
 }
 
 export interface IKufarData {

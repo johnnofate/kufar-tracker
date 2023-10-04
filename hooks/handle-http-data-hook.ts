@@ -5,18 +5,18 @@ export function dataHandler (data: interfaces.IKufarData, searchParams: interfac
 
   const result: interfaces.IResultPost[] = data.ads.reduce((posts: interfaces.IResultPost[], post: interfaces.IKufarPost): interfaces.IResultPost[] => {
     const title: string = post.subject
-    const price: number = Number(post.priceByn)
-    const postDate: number = new Date(post.listTime).getTime() ?? 0
+    const price: number = Number(post.price_byn)
+    const postDate: number = new Date(post.list_time).getTime() ?? 0
     const hasPhoto: boolean = post.images.length > 0
 
-    const accountParameters: interfaces.IKufarAccountParam[] = post.accountParameters
+    const accountParameters: interfaces.IKufarAccountParam[] = post.account_parameters
     const isCompony: boolean = !(accountParameters.filter((accountParam: interfaces.IKufarAccountParam) => {
       if ((accountParam.p === undefined) || (accountParam.v === undefined)) return false
       if (['shop_address', 'company_address', 'company_number'].includes(accountParam.p) && accountParam.v.length > 0) return true
       return false
     }).length === 0)
 
-    const adParameters: interfaces.IKufarPostParam[] = post.adParameters
+    const adParameters: interfaces.IKufarPostParam[] = post.ad_parameters
     const getParam = (filterParam: string): interfaces.IKufarPostParam[] => adParameters.filter((postParam: interfaces.IKufarPostParam) => postParam.p === filterParam)
 
     for (const key in searchParams) {
@@ -85,7 +85,7 @@ export function dataHandler (data: interfaces.IKufarData, searchParams: interfac
       title,
       price: price.toString(),
       imageLink: (post.images.length > 0) ? post.images[0].path : '',
-      link: post.adLink
+      link: post.ad_link
     }]
   }, [])
 
