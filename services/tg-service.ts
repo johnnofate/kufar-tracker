@@ -62,7 +62,7 @@ export class TelegramBotService {
               client.prevPosts.unshift(...sortedResult)
 
               if (client.prevPosts.length > 200) {
-                client.prevPosts = client.prevPosts.filter((_post, index) => index <= 200)
+                client.prevPosts = client.prevPosts.filter((_, index) => index < 200)
               }
 
               if (sortedResult.length > 0) {
