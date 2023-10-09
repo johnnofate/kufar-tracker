@@ -59,8 +59,8 @@ export async function getSearchParams (bot: TelegramBot, message: Message): Prom
             bot.onReplyToMessage(message.chat.id, messageHasPhoto.message_id, messageHasPhotoHandler)
           })
           .catch((e) => {
-          console.error(e)
-        })
+            console.error(e)
+          })
         return
       }
 
@@ -78,8 +78,8 @@ export async function getSearchParams (bot: TelegramBot, message: Message): Prom
             bot.onReplyToMessage(message.chat.id, messagePriceMax.message_id, messagePriceMaxHandler)
           })
           .catch((e) => {
-          console.error(e)
-        })
+            console.error(e)
+          })
       }
 
       if (Number(val) !== undefined && Number(val) !== null) {
@@ -156,7 +156,7 @@ export async function getSearchParams (bot: TelegramBot, message: Message): Prom
         bot.onReplyToMessage(message.chat.id, messageCategory.message_id, messageCategoryHandler)
       })
       .catch((e) => {
-          console.error(e)
-        })
+        console.error(e)
+      })
   })
 }
