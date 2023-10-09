@@ -45,7 +45,6 @@ export class TelegramBotService {
 
           this.httpService.getKufarPosts(client.searchParams)
             .then((result: interfaces.IResult | undefined) => {
-              console.log(result)
               if (result === undefined || result === null) return
 
               if ((result.error !== undefined && result.error !== null) && result.error.length > 0) {
