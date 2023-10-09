@@ -3,7 +3,7 @@ import type TelegramBot from 'node-telegram-bot-api'
 import * as interfaces from '../interfaces'
 import { send } from './send-hook'
 
-export async function getSearchParams (bot: TelegramBot, message: Message): Promise<interfaces.ISearchParams> {
+export async function getSearchParams(bot: TelegramBot, message: Message): Promise<interfaces.ISearchParams> {
   const searchParams: interfaces.ISearchParams = {
     [interfaces.searchParamsKeysEnum.category]: '',
     [interfaces.searchParamsKeysEnum.region]: '',
@@ -66,6 +66,14 @@ export async function getSearchParams (bot: TelegramBot, message: Message): Prom
 
       if (Number(val) !== undefined && Number(val) !== null) {
         searchParams[interfaces.searchParamsKeysEnum.price_max] = Number(val + '00')
+
+        send(bot, messageAnswer, interfaces.responseSuccessMessage.postHasPhoto, messageOptions)
+          .then(messageHasPhoto => {
+            bot.onReplyToMessage(message.chat.id, messageHasPhoto.message_id, messageHasPhotoHandler)
+          })
+          .catch((e) => {
+            console.error(e)
+          })
       }
     }
 
@@ -80,10 +88,19 @@ export async function getSearchParams (bot: TelegramBot, message: Message): Prom
           .catch((e) => {
             console.error(e)
           })
+        return
       }
 
       if (Number(val) !== undefined && Number(val) !== null) {
         searchParams[interfaces.searchParamsKeysEnum.price_min] = Number(val + '00')
+
+        send(bot, messageAnswer, interfaces.responseSuccessMessage.postPriceMax, messageOptions)
+          .then(messagePriceMax => {
+            bot.onReplyToMessage(message.chat.id, messagePriceMax.message_id, messagePriceMaxHandler)
+          })
+          .catch((e) => {
+            console.error(e)
+          })
       }
     }
 
