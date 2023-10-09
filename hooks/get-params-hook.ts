@@ -45,7 +45,9 @@ export async function getSearchParams (bot: TelegramBot, message: Message): Prom
         .then(messageStorage => {
           bot.onReplyToMessage(message.chat.id, messageStorage.message_id, messageStorageHandler)
         })
-        .catch(() => { })
+        .catch((e) => {
+          console.error(e)
+        })
     }
 
     const messagePriceMaxHandler = (messageAnswer: Message): void => {
@@ -56,7 +58,9 @@ export async function getSearchParams (bot: TelegramBot, message: Message): Prom
           .then(messageHasPhoto => {
             bot.onReplyToMessage(message.chat.id, messageHasPhoto.message_id, messageHasPhotoHandler)
           })
-          .catch(() => { })
+          .catch((e) => {
+          console.error(e)
+        })
         return
       }
 
@@ -73,7 +77,9 @@ export async function getSearchParams (bot: TelegramBot, message: Message): Prom
           .then(messagePriceMax => {
             bot.onReplyToMessage(message.chat.id, messagePriceMax.message_id, messagePriceMaxHandler)
           })
-          .catch(() => { })
+          .catch((e) => {
+          console.error(e)
+        })
       }
 
       if (Number(val) !== undefined && Number(val) !== null) {
@@ -92,7 +98,9 @@ export async function getSearchParams (bot: TelegramBot, message: Message): Prom
         .then(messagePriceMin => {
           bot.onReplyToMessage(message.chat.id, messagePriceMin.message_id, messagePriceMinHandler)
         })
-        .catch(() => { })
+        .catch((e) => {
+          console.error(e)
+        })
     }
 
     const messageModelHandler = (messageAnswer: Message): void => {
@@ -106,7 +114,9 @@ export async function getSearchParams (bot: TelegramBot, message: Message): Prom
         .then(messageProducer => {
           bot.onReplyToMessage(message.chat.id, messageProducer.message_id, messageProducerHandler)
         })
-        .catch(() => { })
+        .catch((e) => {
+          console.error(e)
+        })
     }
 
     const messageRegionHandler = (messageAnswer: Message): void => {
@@ -120,7 +130,9 @@ export async function getSearchParams (bot: TelegramBot, message: Message): Prom
         .then(messageModel => {
           bot.onReplyToMessage(message.chat.id, messageModel.message_id, messageModelHandler)
         })
-        .catch(() => { })
+        .catch((e) => {
+          console.error(e)
+        })
     }
 
     const messageCategoryHandler = (messageAnswer: Message): void => {
@@ -134,13 +146,17 @@ export async function getSearchParams (bot: TelegramBot, message: Message): Prom
         .then(messageRegion => {
           bot.onReplyToMessage(message.chat.id, messageRegion.message_id, messageRegionHandler)
         })
-        .catch(() => { })
+        .catch((e) => {
+          console.error(e)
+        })
     }
 
     send(bot, message, interfaces.responseSuccessMessage.postCategory, messageOptions)
       .then((messageCategory) => {
         bot.onReplyToMessage(message.chat.id, messageCategory.message_id, messageCategoryHandler)
       })
-      .catch(() => { })
+      .catch((e) => {
+          console.error(e)
+        })
   })
 }
