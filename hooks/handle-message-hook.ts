@@ -11,7 +11,7 @@ export const clients: interfaces.IClients = {
     searchParams: {
       category: 'мобильные телефоны',
       region: 'минск',
-      model: ['iphone 12', 'iphone 12 mini', 'iphone xs', 'iphone xs max', 'iphone 11', 'iphone 11 pro', 'iphone 11 pro max'],
+      model: ['iphone 12', 'iphone 12 mini', 'iphone xs', 'iphone xs max', 'iphone 11', 'iphone 11 pro', 'iphone 11 pro max', 'iphone 13', 'iphone 13 pro'],
       producer: 'apple',
       price_min: -1,
       price_max: 150000,
@@ -26,7 +26,7 @@ export const clients: interfaces.IClients = {
     searchParams: {
       category: 'мобильные телефоны',
       region: 'минск',
-      model: ['iphone 12', 'iphone 12 mini', 'iphone xs', 'iphone xs max', 'iphone 11', 'iphone 11 pro', 'iphone 11 pro max'],
+      model: ['iphone 12', 'iphone 12 mini', 'iphone xs', 'iphone xs max', 'iphone 11', 'iphone 11 pro', 'iphone 11 pro max', 'iphone 13', 'iphone 13 pro'],
       producer: 'apple',
       price_min: -1,
       price_max: 150000,
@@ -41,7 +41,7 @@ export const clients: interfaces.IClients = {
     searchParams: {
       category: 'мобильные телефоны',
       region: 'минск',
-      model: ['iphone 12', 'iphone 12 mini', 'iphone xs', 'iphone xs max', 'iphone 11', 'iphone 11 pro', 'iphone 11 pro max'],
+      model: ['iphone 12', 'iphone 12 mini', 'iphone xs', 'iphone xs max', 'iphone 11', 'iphone 11 pro', 'iphone 11 pro max', 'iphone 13', 'iphone 13 pro'],
       producer: 'apple',
       price_min: -1,
       price_max: 150000,
