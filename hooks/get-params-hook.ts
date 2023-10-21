@@ -3,7 +3,7 @@ import type TelegramBot from 'node-telegram-bot-api'
 import * as interfaces from '../interfaces'
 import { send } from './send-hook'
 
-export async function getSearchParams(bot: TelegramBot, message: Message): Promise<interfaces.ISearchParams> {
+export async function getSearchParams (bot: TelegramBot, message: Message): Promise<interfaces.ISearchParams> {
   const searchParams: interfaces.ISearchParams = {
     [interfaces.searchParamsKeysEnum.category]: '',
     [interfaces.searchParamsKeysEnum.region]: '',
@@ -13,8 +13,7 @@ export async function getSearchParams(bot: TelegramBot, message: Message): Promi
     [interfaces.searchParamsKeysEnum.price_max]: Infinity,
     [interfaces.searchParamsKeysEnum.has_photo]: null,
     [interfaces.searchParamsKeysEnum.storage]: [],
-    [interfaces.searchParamsKeysEnum.current_date]: Date.now() - 120000,
-    [interfaces.searchParamsKeysEnum.page_size]: 200
+    [interfaces.searchParamsKeysEnum.current_date]: Date.now() - 120000
   }
 
   const messageOptions = {

@@ -1,3 +1,4 @@
+import type mongoose from 'mongoose'
 import { type Message } from 'node-telegram-bot-api'
 
 export enum searchParamsKeysEnum {
@@ -23,7 +24,6 @@ export interface ISearchParams {
   [searchParamsKeysEnum.has_photo]?: boolean | null
   [searchParamsKeysEnum.storage]?: string[]
   [searchParamsKeysEnum.current_date]?: number
-  [searchParamsKeysEnum.page_size]?: number
 }
 
 export interface IResultPost {
@@ -32,6 +32,13 @@ export interface IResultPost {
   imageLink: string
   link: string
 }
+
+export interface IResultPosts {
+  searchParams: ISearchParams
+  prevPosts: IResultPost[]
+}
+
+export type IClients = Record<number, IResultPosts | undefined>
 
 export interface IDataHandlerResult {
   posts: IResultPost[]
@@ -99,12 +106,35 @@ export const responseSuccessMessage = {
 
 export const responseErrorMessage = {
   indefiniteCommand: 'Такой команды не существует',
-  somethingWentWrong: 'Что-то пошло не так'
+  somethingWentWrong: 'Что-то пошло не так',
+  noAccess: 'У вас нет доступа к данному боту'
 }
 
-export interface IClient {
-  searchParams: ISearchParams
-  prevPosts: IResultPost[]
+// MongoDb
+
+export interface IMongoDBConnectResponse {
+  state: boolean
+  message: any
 }
 
-export type IClients = Record<string, IClient | undefined>
+export interface IMongoDBLoginResponse {
+  state: boolean
+  message: any
+}
+
+export interface IMongoDBAddSearchParamsResponse {
+  state: boolean
+  message: any
+}
+
+export interface IMongoUser {
+  _id: typeof mongoose.Schema.ObjectId
+  id: number
+  is_bot: boolean
+  first_name: string
+  last_name?: string | undefined
+  username?: string | undefined
+  language_code?: string | undefined
+  hasPremium: boolean
+  login_date: Date
+}

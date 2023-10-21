@@ -5,6 +5,7 @@ import { dataHandler } from '../hooks/handle-http-data-hook'
 
 export class HttpService {
   private readonly KUFAR_API_URL: string = config.get('KUFAR_API_URL')
+  private readonly PAGE_SIZE: number = 200
 
   public async getKufarPosts (searchParams: interfaces.ISearchParams): Promise<interfaces.IResult | undefined> {
     if (searchParams === undefined || searchParams === null) return
@@ -21,9 +22,9 @@ export class HttpService {
     let url: string = ''
 
     if (cat === 0) {
-      url = this.KUFAR_API_URL + `&size=${searchParams.page_size}`
+      url = this.KUFAR_API_URL + `&size=${this.PAGE_SIZE}`
     } else {
-      url = this.KUFAR_API_URL + `&cat=${cat}&size=${searchParams.page_size}`
+      url = this.KUFAR_API_URL + `&cat=${cat}&size=${this.PAGE_SIZE}`
     }
 
     try {
