@@ -1,4 +1,4 @@
-import mongoose, { Schema, type Document } from 'mongoose'
+import mongoose, { type Document } from 'mongoose'
 import { config } from 'dotenv'
 import type { User as TgUserType } from 'node-telegram-bot-api'
 import { User } from '../models/User.schema'
@@ -90,14 +90,24 @@ export class MongoDB {
 
     if (candidateUser === null) return await Promise.resolve({ state: false, message: interfaces.responseErrorMessage.somethingWentWrong })
 
-    const candidateSearchParams = await SearchParams.findOne({ _id: candidateUser.subscribe, isDefault: false })
+    const candidateSearchParams = await SearchParams.findOne({ _id: candidateUser.subscribe })
 
     if (candidateSearchParams === null || candidateSearchParams === undefined) return await Promise.resolve({ state: false, message: interfaces.responseErrorMessage.noSearchParams })
+
+    if (candidateSearchParams.isDefault === true) {
+      return await User.findByIdAndUpdate(candidateUser._id, { subscribe: undefined })
+        .then(() => ({ state: true, message: interfaces.responseSuccessMessage.unsubscribeSuccess }))
+        .catch(error => {
+          console.log(error)
+          return ({ state: false, message: interfaces.responseErrorMessage.somethingWentWrong })
+        })
+    }
 
     return await Promise.all([
       User.findByIdAndUpdate(candidateUser._id, { subscribe: undefined }),
       SearchParams.deleteOne({ ownerId: candidateUser._id, isDefault: false })
-    ]).then(() => ({ state: true, message: interfaces.responseSuccessMessage.unsubscribeSuccess }))
+    ])
+      .then(() => ({ state: true, message: interfaces.responseSuccessMessage.unsubscribeSuccess }))
       .catch(error => {
         console.log(error)
         return ({ state: false, message: interfaces.responseErrorMessage.somethingWentWrong })
