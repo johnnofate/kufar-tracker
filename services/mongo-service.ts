@@ -77,7 +77,7 @@ export class MongoDB {
 
     if (candidateUser === null) return await Promise.resolve({ state: false, message: `User \`${id}\` not found.` })
 
-    const candidateSearchParams = await SearchParams.findOne({ owner: candidateUser._id })
+    const candidateSearchParams = await SearchParams.findOne({ ownerId: candidateUser._id })
 
     if (candidateSearchParams === null) return await Promise.resolve({ state: false, message: `User \`${id}\` haven't search params.` })
 
