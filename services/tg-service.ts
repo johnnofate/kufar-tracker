@@ -69,20 +69,13 @@ export class TelegramBotService {
       void this.mongoService.getAllUsers()
         .then((users: interfaces.IMongoUser[]) => {
           users.forEach((user: interfaces.IMongoUser) => {
-            void Promise.all([
-              this.mongoService.getUserSearchParams(user._id),
-              this.mongoService.getDefaultSearchParams()
-            ])
-              .then(([userSearchParams, defaultSearchParams]) => {
-                let resultSearchParams: interfaces.ISearchParams | null | undefined = userSearchParams
-
+            void this.mongoService.getUserSearchParams(user._id)
+              .then((userSearchParams) => {
                 if (userSearchParams === null || userSearchParams === undefined) {
-                  if (user.hasPremium) {
-                    resultSearchParams = defaultSearchParams
-                  }
+                  return
                 }
 
-                if (resultSearchParams === null || resultSearchParams === undefined) return
+                if (userSearchParams === null || userSearchParams === undefined) return
 
                 if (this.clients[user.id] === undefined) {
                   const client: interfaces.IResultPosts = {
@@ -92,7 +85,7 @@ export class TelegramBotService {
                   this.clients[user.id] = client
                 }
 
-                this.httpService.getKufarPosts(resultSearchParams)
+                this.httpService.getKufarPosts(userSearchParams)
                   .then((result: interfaces.IResult | undefined) => {
                     const client: interfaces.IResultPosts | undefined = this.clients[user.id]
 

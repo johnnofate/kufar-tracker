@@ -11,6 +11,7 @@ const UserSchema = new Schema({
   username: String,
   language_code: String,
   hasPremium: Boolean,
+  subscribe: Schema.ObjectId,
   login_date: Date
 })
 

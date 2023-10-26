@@ -1,4 +1,4 @@
-import mongoose, { type Document } from 'mongoose'
+import mongoose, { Schema, type Document } from 'mongoose'
 import { config } from 'dotenv'
 import type { User as TgUserType } from 'node-telegram-bot-api'
 import { User } from '../models/User.schema'
@@ -28,6 +28,7 @@ export class MongoDB {
     const newUser = new User({
       ...user,
       hasPremium: false,
+      subscribes: [],
       login_date: new Date()
     })
 
@@ -66,28 +67,49 @@ export class MongoDB {
     })
 
     return await newSearchParams.save()
-      .then(() => ({ state: true, message: `New Search Params by \`${user.id}\` added successfully!` }))
+      .then(async () => {
+        const currentSearchParams = await SearchParams.findOne({ ownerId: candidate._id })
+
+        if (currentSearchParams === null || currentSearchParams === undefined) {
+          return {
+            state: false,
+            message: interfaces.responseErrorMessage.noSearchParams
+          }
+        }
+
+        await User.findByIdAndUpdate(candidate._id, { subscribe: currentSearchParams._id })
+        return { state: true, message: `New Search Params by \`${user.id}\` added successfully!` }
+      })
       .catch(error => ({ state: false, message: error }))
   }
 
-  public async removeSearchParams (id: number): Promise<interfaces.IMongoDBAddSearchParamsResponse> {
-    if (id === undefined) return await Promise.resolve({ state: false, message: interfaces.responseErrorMessage.somethingWentWrong })
+  public async removeSearchParams (chatId: number): Promise<interfaces.IMongoDBAddSearchParamsResponse> {
+    if (chatId === undefined) return await Promise.resolve({ state: false, message: interfaces.responseErrorMessage.somethingWentWrong })
 
-    const candidateUser = await User.findOne({ id })
+    const candidateUser = await User.findOne({ id: chatId })
 
     if (candidateUser === null) return await Promise.resolve({ state: false, message: interfaces.responseErrorMessage.somethingWentWrong })
 
-    const candidateSearchParams = await SearchParams.findOne({ ownerId: candidateUser._id, default: false })
+    const candidateSearchParams = await SearchParams.findOne({ _id: candidateUser.subscribe, isDefault: false })
 
-    if (candidateSearchParams === null) return await Promise.resolve({ state: false, message: interfaces.responseErrorMessage.noSearchParams })
+    if (candidateSearchParams === null || candidateSearchParams === undefined) return await Promise.resolve({ state: false, message: interfaces.responseErrorMessage.noSearchParams })
 
-    return await SearchParams.deleteOne({ ownerId: candidateUser._id, default: false })
-      .then(() => ({ state: true, message: interfaces.responseSuccessMessage.unsubscribeSuccess }))
-      .catch(error => ({ state: false, message: error }))
+    return await Promise.all([
+      User.findByIdAndUpdate(candidateUser._id, { subscribe: undefined }),
+      SearchParams.deleteOne({ ownerId: candidateUser._id, isDefault: false })
+    ]).then(() => ({ state: true, message: interfaces.responseSuccessMessage.unsubscribeSuccess }))
+      .catch(error => {
+        console.log(error)
+        return ({ state: false, message: interfaces.responseErrorMessage.somethingWentWrong })
+      })
   }
 
   public async getUserSearchParams (id: typeof mongoose.Schema.ObjectId): Promise<interfaces.ISearchParams | null | undefined> {
-    const searchParams: interfaces.ISearchParams | null | undefined = await SearchParams.findOne({ ownerId: id })
+    const user = await User.findById(id)
+
+    if (user === null || user === undefined) return await Promise.resolve(null)
+
+    const searchParams: interfaces.ISearchParams | null | undefined = await SearchParams.findById(user.subscribe)
     return searchParams
   }
 

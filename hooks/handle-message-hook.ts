@@ -13,6 +13,7 @@ export async function handleMessages (bot: TelegramBot, message: Message, client
   })
 
   if (includesCommand.length <= 0 && !isReply) {
+    console.log(isReply)
     await send(bot, message, interfaces.responseErrorMessage.indefiniteCommand)
   }
 
@@ -27,13 +28,14 @@ export async function handleMessages (bot: TelegramBot, message: Message, client
       }
 
       await send(bot, message, interfaces.responseSuccessMessage.subscribeInfo)
-
       isReply = true
 
       const searchParams: interfaces.ISearchParams = await getSearchParams(bot, message)
-      isReply = false
-
       await send(bot, message, interfaces.responseSuccessMessage.subscribeSuccess)
+
+      setTimeout(() => {
+        isReply = false
+      })
 
       return searchParams
     }
@@ -41,7 +43,6 @@ export async function handleMessages (bot: TelegramBot, message: Message, client
       clients[message.chat.id] = undefined
       const unsubscribeResult: interfaces.IMongoDBAddSearchParamsResponse = await mongoService.removeSearchParams(message.chat.id)
       await send(bot, message, unsubscribeResult.message)
-
       break
     }
     default:
