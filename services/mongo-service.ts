@@ -81,7 +81,7 @@ export class MongoDB {
 
     if (candidateSearchParams === null) return await Promise.resolve({ state: false, message: interfaces.responseErrorMessage.noSearchParams })
 
-    return await SearchParams.deleteOne({ owner: candidateUser._id })
+    return await SearchParams.deleteOne({ ownerId: candidateUser._id })
       .then(() => ({ state: true, message: interfaces.responseSuccessMessage.unsubscribeSuccess }))
       .catch(error => ({ state: false, message: error }))
   }
