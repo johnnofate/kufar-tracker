@@ -107,7 +107,8 @@ export const responseSuccessMessage = {
 export const responseErrorMessage = {
   indefiniteCommand: 'Такой команды не существует',
   somethingWentWrong: 'Что-то пошло не так',
-  noAccess: 'У вас нет доступа к данному боту'
+  noAccess: 'У вас нет доступа к данному боту',
+  noSearchParams: 'У вас нет подписок'
 }
 
 // MongoDb

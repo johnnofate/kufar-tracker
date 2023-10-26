@@ -71,15 +71,15 @@ export class MongoDB {
   }
 
   public async removeSearchParams (id: number): Promise<interfaces.IMongoDBAddSearchParamsResponse> {
-    if (id === undefined) return await Promise.resolve({ state: false, message: 'User data not found.' })
+    if (id === undefined) return await Promise.resolve({ state: false, message: interfaces.responseErrorMessage.somethingWentWrong })
 
     const candidateUser = await User.findOne({ id })
 
-    if (candidateUser === null) return await Promise.resolve({ state: false, message: `User \`${id}\` not found.` })
+    if (candidateUser === null) return await Promise.resolve({ state: false, message: interfaces.responseErrorMessage.somethingWentWrong })
 
     const candidateSearchParams = await SearchParams.findOne({ ownerId: candidateUser._id })
 
-    if (candidateSearchParams === null) return await Promise.resolve({ state: false, message: `User \`${id}\` haven't search params.` })
+    if (candidateSearchParams === null) return await Promise.resolve({ state: false, message: interfaces.responseErrorMessage.noSearchParams })
 
     return await SearchParams.deleteOne({ owner: candidateUser._id })
       .then(() => ({ state: true, message: interfaces.responseSuccessMessage.unsubscribeSuccess }))
