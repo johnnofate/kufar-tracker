@@ -77,11 +77,11 @@ export class MongoDB {
 
     if (candidateUser === null) return await Promise.resolve({ state: false, message: interfaces.responseErrorMessage.somethingWentWrong })
 
-    const candidateSearchParams = await SearchParams.findOne({ ownerId: candidateUser._id })
+    const candidateSearchParams = await SearchParams.findOne({ ownerId: candidateUser._id, default: false })
 
     if (candidateSearchParams === null) return await Promise.resolve({ state: false, message: interfaces.responseErrorMessage.noSearchParams })
 
-    return await SearchParams.deleteOne({ ownerId: candidateUser._id })
+    return await SearchParams.deleteOne({ ownerId: candidateUser._id, default: false })
       .then(() => ({ state: true, message: interfaces.responseSuccessMessage.unsubscribeSuccess }))
       .catch(error => ({ state: false, message: error }))
   }
