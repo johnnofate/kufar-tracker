@@ -42,7 +42,7 @@ export class TelegramBotService {
             return
           }
 
-          handleMessages(this.bot, message, this.clients)
+          handleMessages(this.bot, message, this.clients, this.mongoService)
             .then((searchParams: interfaces.ISearchParams | undefined) => {
               if (searchParams === undefined || message === undefined) return
               if (message.from === undefined) return

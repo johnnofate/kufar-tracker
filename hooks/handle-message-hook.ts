@@ -3,10 +3,11 @@ import type TelegramBot from 'node-telegram-bot-api'
 import * as interfaces from '../interfaces'
 import { getSearchParams } from './get-params-hook'
 import { send } from './send-hook'
+import type { MongoDB } from '../services/mongo-service'
 
 export let isReply: boolean = false
 
-export async function handleMessages (bot: TelegramBot, message: Message, clients: interfaces.IClients): Promise<interfaces.ISearchParams | undefined> {
+export async function handleMessages (bot: TelegramBot, message: Message, clients: interfaces.IClients, mongoService: MongoDB): Promise<interfaces.ISearchParams | undefined> {
   const includesCommand = interfaces.commands.filter((command: string) => {
     return command === message.text
   })
@@ -36,10 +37,13 @@ export async function handleMessages (bot: TelegramBot, message: Message, client
 
       return searchParams
     }
-    case interfaces.commandsEnum.unsubscribe:
+    case interfaces.commandsEnum.unsubscribe: {
       clients[message.chat.id] = undefined
-      await send(bot, message, interfaces.responseSuccessMessage.unsubscribeSuccess)
+      const unsubscribeResult: interfaces.IMongoDBAddSearchParamsResponse = await mongoService.removeSearchParams(message.chat.id)
+      await send(bot, message, unsubscribeResult.message)
+
       break
+    }
     default:
       break
   }
